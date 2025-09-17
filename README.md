@@ -1,253 +1,209 @@
-# Voxita - AI Voice Assistant
+Voxita - AI Voice Assistant (Groq Version)
 
-A futuristic AI voice assistant with streaming chat capabilities powered by Ollama and featuring a stunning neon-blue UI design.
+A futuristic AI voice assistant with streaming chat capabilities powered by Groq API and featuring a stunning neon-blue UI design.
 
-## Features
+Features
 
-- 🎤 **Voice Input**: Web Speech Recognition API for hands-free interaction
-- 🔊 **Voice Output**: Text-to-Speech synthesis for AI responses
-- 💬 **Streaming Chat**: Real-time streaming responses via Server-Sent Events
-- 🤖 **Ollama Integration**: Compatible with Mistral and other Ollama models
-- 🎨 **Futuristic UI**: Neon blue cyberpunk-style interface with animations
-- 🐳 **Docker Ready**: Easy deployment with Docker Compose
+🎤 Voice Input: Web Speech Recognition API for hands-free interaction
 
-## Quick Start
+🔊 Voice Output: Text-to-Speech synthesis for AI responses
 
-### Prerequisites
+💬 Streaming Chat: Real-time streaming responses via Server-Sent Events
 
-1. **Install Ollama**: Download from [ollama.ai](https://ollama.ai)
-2. **Pull Mistral Model**:
-   ```bash
-   ollama pull mistral
-   ```
-3. **Node.js 18+** and **Python 3.11+**
+⚡ Groq Integration: Ultra-fast responses using Groq-hosted models
 
-### Option 1: Using Docker (Recommended)
+🎨 Futuristic UI: Neon blue-style 
 
-1. **Clone and setup**:
-   ```bash
-   git clone <your-repo>
-   cd ai-voxita-voice
-   cp .env.example .env
-   ```
+🐳 Docker Ready: Easy deployment with Docker Compose
 
-2. **Start Ollama** (in separate terminal):
-   ```bash
-   ollama serve
-   ```
+Quick Start
+Prerequisites
 
-3. **Run the project**:
-   ```bash
-   chmod +x start.sh
-   ./start.sh
-   ```
+Groq API Key – Get it from console.groq.com
 
-4. **Access the app**:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000
+Node.js 18+ and Python 3.11+
 
-### Option 2: Manual Setup
+Docker & Docker Compose (for containerized backend)
 
-#### Backend Setup
+Option 1: Using Docker (Recommended)
 
-1. **Navigate to backend**:
-   ```bash
-   cd backend
-   ```
+Clone and setup:
 
-2. **Create virtual environment**:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+git clone <your-repo>
+cd ai-voxita-voice
+cp .env.example .env
 
-3. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
 
-4. **Configure environment**:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your Ollama URL (default: http://localhost:11434)
-   ```
+Add Groq API key to .env:
 
-5. **Start backend**:
-   ```bash
-   python main.py
-   ```
+GROQ_API_KEY=your_api_key_here
 
-#### Frontend Setup
 
-1. **Navigate to frontend** (new terminal):
-   ```bash
-   cd frontend
-   ```
+Run the project:
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+chmod +x start.sh
+./start.sh
 
-3. **Start development server**:
-   ```bash
-   npm run dev
-   ```
 
-## API Endpoints
+Access the app:
 
-### Backend API (Port 8000)
+Frontend: http://localhost:3000
 
-- `GET /` - Health check
-- `POST /api/chat` - Non-streaming chat
-- `GET /api/stream-chat` - Streaming chat via SSE
-- `GET /api/health` - System health status
+Backend API: http://localhost:8000
 
-### Example API Usage
+Option 2: Manual Setup
+Backend Setup
 
-**Non-streaming chat**:
-```bash
+Navigate to backend:
+
+cd backend
+
+
+Create virtual environment:
+
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+
+Configure environment:
+
+cp .env.example .env
+# Edit .env with your Groq API key
+GROQ_API_KEY=your_api_key_here
+
+
+Start backend:
+
+python main.py
+
+Frontend Setup
+
+Navigate to frontend (new terminal):
+
+cd frontend
+
+
+Install dependencies:
+
+npm install
+
+
+Start development server:
+
+npm run dev
+
+API Endpoints (Port 8000)
+
+GET / - Health check
+
+POST /api/chat - Non-streaming chat (Groq)
+
+GET /api/stream-chat - Streaming chat via SSE (Groq)
+
+GET /api/health - System health status
+
+Example API Usage
+
+Non-streaming chat:
+
 curl -X POST http://localhost:8000/api/chat \
   -H "Content-Type: application/json" \
   -d '{"message": "Hello, how are you?"}'
-```
 
-**Streaming chat**:
-```bash
+
+Streaming chat:
+
 curl -N http://localhost:8000/api/stream-chat?message=Hello
-```
 
-## Configuration
+Configuration
+Environment Variables
 
-### Environment Variables
+Create .env file in the root directory:
 
-Create `.env` file in the root directory:
-
-```env
-# Ollama Configuration
-OLLAMA_URL=http://localhost:11434
-OLLAMA_MODEL=mistral
+# Groq Configuration
+GROQ_API_KEY=your_api_key_here
+GROQ_MODEL=llama3-8b-8192   # or mistral-7b, mixtral-8x7b, llama3-70b
 
 # API Configuration
-API_KEY=your_api_key_here
 DEBUG=true
 
 # Server Configuration
 HOST=0.0.0.0
 PORT=8000
-```
 
-### Ollama Models
+Voice Features
 
-Supported models (install with `ollama pull <model>`):
-- `mistral` (default)
-- `llama2`
-- `codellama`
-- `vicuna`
-- `orca-mini`
+Voice Input: Web Speech API for hands-free interaction
 
-## Voice Features
+Voice Output: Adjustable TTS (rate, pitch, volume)
 
-### Voice Input
-- Click the microphone button or use keyboard shortcut
-- Supports continuous speech recognition
-- Automatically sends message when speech ends
+Multi-voice support (browser dependent)
 
-### Voice Output
-- Toggle voice output with the speaker button
-- Adjustable speech rate, pitch, and volume
-- Supports multiple voice engines (browser dependent)
+UI Features
 
-## UI Features
+Responsive Design (desktop + mobile)
 
-- **Responsive Design**: Works on desktop and mobile
-- **Dark Theme**: Cyberpunk-inspired neon blue design
-- **Animations**: Smooth transitions and hover effects
-- **Real-time Streaming**: Live message updates
-- **Voice Indicators**: Visual feedback for voice states
+Dark Theme (cyberpunk neon blue)
 
-## Development
+Animations (Framer Motion)
 
-### Project Structure
+Streaming UI (real-time Groq responses)
 
-```
+Voice Indicators
+
+Development
+Project Structure
 ai-voxita-voice/
 ├── backend/                 # FastAPI backend
-│   ├── main.py             # Main server application
-│   ├── ollama_client.py    # Ollama API client
-│   ├── requirements.txt    # Python dependencies
-│   ├── Dockerfile          # Backend container
-│   └── .env.example        # Environment template
-├── frontend/               # React frontend
+│   ├── main.py              # Main server application
+│   ├── groq_client.py       # Groq API client
+│   ├── requirements.txt     # Python dependencies
+│   ├── Dockerfile           # Backend container
+│   └── .env.example         # Environment template
+├── frontend/                # React frontend
 │   ├── src/
-│   │   ├── App.jsx         # Main application
-│   │   ├── components/     # React components
-│   │   └── styles.css      # Tailwind styles
-│   ├── package.json        # Node dependencies
-│   └── vite.config.js      # Vite configuration
-├── docker-compose.yml      # Container orchestration
-├── start.sh               # Quick start script
-└── README.md              # This file
-```
+│   │   ├── App.jsx          # Main application
+│   │   ├── components/      # React components
+│   │   └── styles.css       # Tailwind styles
+│   ├── package.json         # Node dependencies
+│   └── vite.config.js       # Vite configuration
+├── docker-compose.yml       # Container orchestration
+├── start.sh                 # Quick start script (Groq)
+└── README.md                # This file
 
-### Building for Production
+Troubleshooting
 
-**Frontend**:
-```bash
-cd frontend
-npm run build
-```
+Groq Authentication Failed
 
-**Backend Docker**:
-```bash
-cd backend
-docker build -t voxita-backend .
-```
+Ensure GROQ_API_KEY is set correctly in .env
 
-## Troubleshooting
+Voice Input Not Working
 
-### Common Issues
+Use HTTPS or localhost (Web Speech API requirement)
 
-1. **Ollama Connection Failed**:
-   - Ensure Ollama is running: `ollama serve`
-   - Check OLLAMA_URL in .env file
-   - Verify model is installed: `ollama list`
+Allow microphone permissions
 
-2. **Voice Input Not Working**:
-   - Use HTTPS or localhost (required for Web Speech API)
-   - Check browser permissions for microphone
-   - Supported browsers: Chrome, Edge, Safari
+CORS Errors
 
-3. **CORS Errors**:
-   - Backend includes CORS middleware
-   - Check frontend proxy configuration in vite.config.js
+Backend has CORS middleware
 
-4. **Port Conflicts**:
-   - Frontend: Change port in vite.config.js
-   - Backend: Set PORT in .env file
+Check frontend proxy config
 
-### Performance Tips
+Port Conflicts
 
-- Use streaming endpoints for better responsiveness
-- Adjust Ollama model parameters in ollama_client.py
-- Enable browser hardware acceleration for smooth animations
+Frontend default: 3000
 
-## Contributing
+Backend default: 8000
 
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -am 'Add feature'`
-4. Push to branch: `git push origin feature-name`
-5. Submit pull request
+Performance Tips
 
-## License
+Use streaming endpoints for real-time Groq responses
 
-MIT License - see LICENSE file for details
+Choose smaller models (llama3-8b) for faster replies
 
-## Acknowledgments
-
-- [Ollama](https://ollama.ai) - Local AI model runtime
-- [FastAPI](https://fastapi.tiangolo.com) - Modern Python web framework
-- [React](https://reactjs.org) - Frontend framework
-- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS
-- [Framer Motion](https://framer.com/motion) - Animation library
+Use larger models (llama3-70b) for complex reasoning
