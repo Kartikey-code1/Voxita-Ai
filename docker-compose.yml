@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  voxita-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=mistral
+      - DEBUG=true
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - ollama-check
+    restart: unless-stopped
+    networks:
+      - voxita-network
+
+  # Health check service to ensure Ollama is running
+  ollama-check:
+    image: curlimages/curl:latest
+    command: >
+      sh -c "
+        echo 'Waiting for Ollama to be available...'
+        until curl -f http://host.docker.internal:11434/api/tags; do
+          echo 'Ollama not ready, waiting 5 seconds...'
+          sleep 5
+        done
+        echo 'Ollama is ready!'
+      "
+    networks:
+      - voxita-network
+
+networks:
+  voxita-network:
+    driver: bridge
+
+# Note: Frontend runs via npm/vite for development
+# For production, you can add a frontend service with nginx

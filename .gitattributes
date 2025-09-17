@@ -1,0 +1,21 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Ensure Python files always use LF
+*.py text eol=lf
+
+# Ensure JS/React files always use LF
+*.js text eol=lf
+*.jsx text eol=lf
+
+# Treat images as binary (no diff/merge)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.mp4 binary
+
+# Lock large model/data files as binary
+*.bin binary
+*.pt binary
+*.onnx binary
