@@ -1,32 +1,27 @@
 #!/bin/bash
 
-# Voxita AI Voice Assistant - Quick Start Script
+# Voxita AI Voice Assistant - Quick Start Script (Groq Version)
 
-echo "🚀 Starting Voxita AI Voice Assistant..."
+echo "🚀 Starting Voxita AI Voice Assistant (Groq)..."
 
-# Check if Ollama is installed
-if ! command -v ollama &> /dev/null; then
-    echo "❌ Ollama is not installed. Please install it from https://ollama.ai"
-    exit 1
-fi
-
-# Check if Ollama is running
-if ! curl -s http://localhost:11434/api/tags > /dev/null; then
-    echo "⚠️  Ollama is not running. Starting Ollama server..."
-    echo "Please run 'ollama serve' in another terminal, then run this script again."
-    exit 1
-fi
-
-# Check if Mistral model is available
-if ! ollama list | grep -q "mistral"; then
-    echo "📥 Mistral model not found. Pulling model..."
-    ollama pull mistral
-fi
-
-# Create .env file if it doesn't exist
+# Check if .env file exists
 if [ ! -f .env ]; then
     echo "📝 Creating .env file..."
-    cp .env.example .env
+    if [ -f .env.example ]; then
+        cp .env.example .env
+    else
+        echo "❌ .env.example not found. Please create a .env file manually with your Groq API key:"
+        echo "GROQ_API_KEY=your_api_key_here"
+        exit 1
+    fi
+fi
+
+# Check if GROQ_API_KEY is set
+if ! grep -q "GROQ_API_KEY" .env; then
+    echo "❌ GROQ_API_KEY not found in .env file."
+    echo "Please add your Groq API key like this:"
+    echo "GROQ_API_KEY=your_api_key_here"
+    exit 1
 fi
 
 # Start backend with Docker Compose
@@ -45,7 +40,7 @@ fi
 
 # Start frontend
 echo "🎨 Starting frontend..."
-cd frontend
+cd frontend || { echo "❌ frontend directory not found"; exit 1; }
 
 # Install dependencies if node_modules doesn't exist
 if [ ! -d "node_modules" ]; then
@@ -61,17 +56,17 @@ npm run dev &
 sleep 5
 
 echo ""
-echo "🎉 Voxita is now running!"
+echo "🎉 Voxita (Groq) is now running!"
 echo ""
 echo "📱 Frontend: http://localhost:3000"
 echo "🔧 Backend API: http://localhost:8000"
 echo "📚 API Docs: http://localhost:8000/docs"
 echo ""
 echo "💡 Tips:"
+echo "   • Add your Groq API key in .env"
 echo "   • Click the microphone button for voice input"
 echo "   • Toggle the speaker button for voice output"
 echo "   • Use Ctrl+C to stop the services"
 echo ""
 
-# Keep script running
 wait
